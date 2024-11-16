@@ -1,284 +1,269 @@
-import { useState, useEffect } from 'react';
-import { Calendar } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import Filters from './Filters';
 
-export default function Component() {
+export default function AttendancePage() {
   const [data, setData] = useState(null);
-  const [secteurs, setSecteurs] = useState([]);
+  const [niveaux, setNiveaux] = useState([]);
   const [filieres, setFilieres] = useState([]);
+  const [annees, setAnnees] = useState([]);
   const [groupes, setGroupes] = useState([]);
-  const [secteur, setSecteur] = useState('');
+  const [niveau, setNiveau] = useState('');
   const [filiere, setFiliere] = useState('');
+  const [annee, setAnnee] = useState('');
   const [groupe, setGroupe] = useState('');
   const [students, setStudents] = useState([]);
-  const [editing, setEditing] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
-  const [error, setError] = useState(null);
   const [dateFilter, setDateFilter] = useState('');
-  const [absentStudents, setAbsentStudents] = useState([]);
+  const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
+    // Retrieve user data from localStorage or sessionStorage
+    const user = (localStorage.getItem('user') && JSON.parse(localStorage.getItem('user'))) || 
+                 (sessionStorage.getItem('user') && JSON.parse(sessionStorage.getItem('user'))) || 
+                 { name: '', role: '' };
+    setCurrentUser(user);
+
+    // Fetch attendance data
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3000/secteur');
-        if (!response.ok) {
-          throw new Error('Failed to fetch data');
-        }
-        const result = await response.json();
+        const attendanceResponse = await fetch('http://localhost:3000/niveau');
+        if (!attendanceResponse.ok) throw new Error('Failed to fetch attendance data');
+        const result = await attendanceResponse.json();
         setData(result);
-        setSecteurs(Object.keys(result));
+        
+        // Set all filter options
+        setNiveaux(Object.keys(result));
+        setFilieres(getAllFilieres(result));
+        setAnnees(getAllAnnees(result));
+        setGroupes(getAllGroupes(result));
+        
+        // Set initial students
+        setStudents(getAllStudents(result));
       } catch (error) {
         console.error('Error fetching data:', error);
-        setError('Failed to load data. Please try again.');
       }
     };
 
     fetchData();
   }, []);
 
-  const isDateInPast = (selectedDate) => {
-    const today = new Date().toISOString().split('T')[0];
-    return selectedDate < today;
+  const getAllFilieres = (data) => {
+    const filieresSet = new Set();
+    Object.values(data).forEach(niveau => {
+      Object.keys(niveau).forEach(filiere => filieresSet.add(filiere));
+    });
+    return Array.from(filieresSet);
   };
 
-  const fetchAbsentStudents = async (selectedDate) => {
-    try {
-      const response = await fetch(
-        `http://localhost:3000/absentStudents?date=${selectedDate}&secteur=${secteur}&filiere=${filiere}&groupe=${groupe}`
-      );
-      if (!response.ok) {
-        throw new Error('Failed to fetch absent students');
-      }
-      const result = await response.json();
-      setAbsentStudents(result);
-    } catch (error) {
-      console.error('Error fetching absent students:', error);
-      setError('Failed to load absent students. Please try again.');
-    }
-  };
-
-  const handleDateChange = (e) => {
-    const selectedDate = e.target.value;
-    try {
-      const formattedDate = new Date(selectedDate).toISOString().split('T')[0];
-      setDateFilter(formattedDate);
-      if (isDateInPast(formattedDate)) {
-        fetchAbsentStudents(formattedDate);
-        setEditing(false);
-      } else {
-        setEditing(true);
-        setAbsentStudents([]);
-      }
-    } catch {
-      setError('Invalid date selected.');
-    }
-  };
-
-  const handleSecteurChange = (e) => {
-    const value = e.target.value;
-    setSecteur(value);
-    setFilieres(Object.keys(data[value] || {}));
-    setFiliere('');
-    setGroupe('');
-    setStudents([]);
-    setEditing(false);
-  };
-
-  const handleFiliereChange = (e) => {
-    const value = e.target.value;
-    setFiliere(value);
-    setGroupes(Object.keys(data[secteur][value] || {}));
-    setGroupe('');
-    setStudents([]);
-    setEditing(false);
-  };
-
-  const handleGroupeChange = (e) => {
-    const value = e.target.value;
-    setGroupe(value);
-    const studentsList = data[secteur][filiere][value] || [];
-    setStudents(studentsList);
-    setEditing(!isDateInPast(dateFilter));
-  };
-
-  const handleCheckboxChange = (id) => {
-    setStudents((prevStudents) =>
-      prevStudents.map((s) => (s.id === id ? { ...s, selected: !s.selected } : s))
-    );
-  };
-
-  const handleEditCancel = () => {
-    setEditing(!editing);
-    setStudents(students.map((s) => ({ ...s, selected: false })));
-  };
-
-  const saveSelectionsToAPI = async (updatedStudents) => {
-    try {
-      const response = await fetch('http://localhost:3000/absentStudents', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          secteur,
-          filiere,
-          groupe,
-          date: dateFilter,
-          students: updatedStudents.map((student) => ({
-            studentId: student.id,
-            studentCef: student.cef,
-            studentName: student.fullname,
-            studentDateN: student.dateNaissance,
-            studentCin: student.cin,
-            isAbsent: student.selected,
-          })),
-        }),
+  const getAllAnnees = (data) => {
+    const anneesSet = new Set();
+    Object.values(data).forEach(niveau => {
+      Object.values(niveau).forEach(filiere => {
+        Object.keys(filiere).forEach(annee => anneesSet.add(annee));
       });
-
-      if (!response.ok) {
-        throw new Error('Failed to save selections');
-      }
-    } catch (error) {
-      console.error('Error saving selections:', error);
-      setError('Failed to save selections. Please try again.');
-    }
+    });
+    return Array.from(anneesSet);
   };
 
-  const saveSelections = async () => {
-    setIsSaving(true);
-    setError(null);
-
-    try {
-      const updatedStudents = students.map((s) => ({ ...s, selected: s.selected }));
-      await saveSelectionsToAPI(updatedStudents);
-      setEditing(false);
-    } catch {
-      setError('Failed to save selections.');
-    } finally {
-      setIsSaving(false);
-    }
+  const getAllGroupes = (data) => {
+    const groupesSet = new Set();
+    Object.values(data).forEach(niveau => {
+      Object.values(niveau).forEach(filiere => {
+        Object.values(filiere).forEach(annee => {
+          Object.keys(annee).forEach(groupe => groupesSet.add(groupe));
+        });
+      });
+    });
+    return Array.from(groupesSet);
   };
 
-  if (!data) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <span className="loading loading-spinner loading-lg text-primary"></span>
-      </div>
+  const getAllStudents = (data) => {
+    let allStudents = [];
+    Object.entries(data).forEach(([niveauKey, niveauValue]) => {
+      Object.entries(niveauValue).forEach(([filiereKey, filiereValue]) => {
+        Object.entries(filiereValue).forEach(([anneeKey, anneeValue]) => {
+          Object.entries(anneeValue).forEach(([groupeKey, students]) => {
+            allStudents = allStudents.concat(students.map(student => ({
+              ...student,
+              niveau: niveauKey,
+              filiere: filiereKey,
+              annee: anneeKey,
+              groupe: groupeKey
+            })));
+          });
+        });
+      });
+    });
+    return allStudents;
+  };
+
+  const handleFilterChange = (filterType, value) => {
+    switch (filterType) {
+      case 'niveau':
+        setNiveau(value);
+        break;
+      case 'filiere':
+        setFiliere(value);
+        break;
+      case 'annee':
+        setAnnee(value);
+        break;
+      case 'groupe':
+        setGroupe(value);
+        break;
+    }
+
+    // Filter students based on all current filter values
+    setStudents(getFilteredStudents(
+      filterType === 'niveau' ? value : niveau,
+      filterType === 'filiere' ? value : filiere,
+      filterType === 'annee' ? value : annee,
+      filterType === 'groupe' ? value : groupe
+    ));
+  };
+
+  const handleDateChange = (e) => setDateFilter(e.target.value);
+
+  const getFilteredStudents = (niveau, filiere, annee, groupe) => {
+    if (!data) return [];
+    
+    return getAllStudents(data).filter(student => 
+      (!niveau || student.niveau === niveau) &&
+      (!filiere || student.filiere === filiere) &&
+      (!annee || student.annee === annee) &&
+      (!groupe || student.groupe === groupe)
     );
+  };
+
+  if (!currentUser) {
+    return <p>Loading user data...</p>;
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-6xl">
-      {error && <div className="alert alert-error mb-4">{error}</div>}
+    <div className="container mx-auto px-4 py-8 max-w-7xl">
+      {/* Filters */}
+      <Filters
+        niveaux={niveaux}
+        filieres={filieres}
+        annees={annees}
+        groupes={groupes}
+        niveau={niveau}
+        filiere={filiere}
+        annee={annee}
+        groupe={groupe}
+        dateFilter={dateFilter}
+        onNiveauChange={(e) => handleFilterChange('niveau', e.target.value)}
+        onFiliereChange={(e) => handleFilterChange('filiere', e.target.value)}
+        onAnneeChange={(e) => handleFilterChange('annee', e.target.value)}
+        onGroupeChange={(e) => handleFilterChange('groupe', e.target.value)}
+        onDateChange={handleDateChange}
+      />
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-        <select
-          className="select select-bordered w-full"
-          value={secteur}
-          onChange={handleSecteurChange}
-        >
-          <option value="">Select Secteur</option>
-          {secteurs.map((s) => (
-            <option key={s} value={s}>
-              {s}
-            </option>
-          ))}
-        </select>
-
-        <select
-          className="select select-bordered w-full"
-          value={filiere}
-          onChange={handleFiliereChange}
-          disabled={!secteur}
-        >
-          <option value="">Select Filière</option>
-          {filieres.map((f) => (
-            <option key={f} value={f}>
-              {f}
-            </option>
-          ))}
-        </select>
-
-        <select
-          className="select select-bordered w-full"
-          value={groupe}
-          onChange={handleGroupeChange}
-          disabled={!filiere}
-        >
-          <option value="">Select Groupe</option>
-          {groupes.map((g) => (
-            <option key={g} value={g}>
-              {g}
-            </option>
-          ))}
-        </select>
-
-        <div className="relative">
-          <input
-            type="date"
-            className="input input-bordered w-full pr-10"
-            value={dateFilter}
-            onChange={handleDateChange}
-          />
-          <Calendar
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-            size={20}
-          />
+      {/* Render Table based on User Role */}
+      {currentUser.role === 'admin' ? (
+        // ADMIN Table
+        <div className="overflow-x-auto bg-white rounded-lg shadow-md">
+          {students.length > 0 ? (
+            <table className="w-full">
+              <thead>
+                <tr className="bg-gray-200">
+                  <th className="py-2 px-4">CEF</th>
+                  <th className="py-2 px-4">Full Name</th>
+                  <th className="py-2 px-4">Niveau</th>
+                  <th className="py-2 px-4">Filière</th>
+                  <th className="py-2 px-4">Année</th>
+                  <th className="py-2 px-4">Groupe</th>
+                  <th className="py-2 px-4">Nombre Absences</th>
+                  <th className="py-2 px-4">Nombre Retards</th>
+                  <th className="py-2 px-4">Sanctions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {students.map((student) => (
+                  <tr key={student.cef} className="hover:bg-gray-100">
+                    <td className="py-2 px-4">{student.cef}</td>
+                    <td className="py-2 px-4">{student.fullname}</td>
+                    <td className="py-2 px-4">{student.niveau}</td>
+                    <td className="py-2 px-4">{student.filiere}</td>
+                    <td className="py-2 px-4">{student.annee}</td>
+                    <td className="py-2 px-4">{student.groupe}</td>
+                    <td className="py-2 px-4 text-center">
+                      <input
+                        type="number"
+                        min="0"
+                        className="block w-full border border-gray-300 rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="0"
+                      />
+                    </td>
+                    <td className="py-2 px-4 text-center">
+                      <input
+                        type="number"
+                        min="0"
+                        className="block w-full border border-gray-300 rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="0"
+                      />
+                    </td>
+                    <td className="py-2 px-4 text-center">
+                      <select className="block w-full border border-gray-300 rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="">Aucune</option>
+                        <option value="avertissement">Avertissement</option>
+                        <option value="blame">Blâme</option>
+                        <option value="exclusion">Exclusion</option>
+                      </select>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p className="text-center py-4">Aucun étudiant trouvé pour ces critères.</p>
+          )}
         </div>
-      </div>
-
-      <div className="overflow-x-auto bg-base-100 rounded-lg shadow-lg mb-6">
-        <table className="table w-full">
-          <thead>
-            <tr>
-              {editing && <th>Action</th>}
-              <th>CEF</th>
-              <th>Full Name</th>
-              <th>Date de Naissance</th>
-              <th>CIN</th>
-            </tr>
-          </thead>
-          <tbody>
-            {(isDateInPast(dateFilter) ? absentStudents : students).map((student) => (
-              <tr key={student.id}>
-                {editing && (
-                  <td>
-                    <input
-                      type="checkbox"
-                      className="checkbox checkbox-primary"
-                      checked={student.selected || absentStudents.some((a) => a.id === student.id)}
-                      onChange={() => handleCheckboxChange(student.id)}
-                      disabled={!editing}
-                    />
-                  </td>
-                )}
-                <td>{student.cef}</td>
-                <td>{student.fullname}</td>
-                <td>{student.dateNaissance}</td>
-                <td>{student.cin}</td>
+      ) : currentUser.role === 'trainer' ? (
+        // TRAINER Table
+        <div className="overflow-x-auto bg-white rounded-lg shadow-md">
+          <table className="w-full">
+            <thead>
+              <tr>
+                <th>CEF</th>
+                <th>Full Name</th>
+                <th>Niveau</th>
+                <th>Filière</th>
+                <th>Année</th>
+                <th>Groupe</th>
+                <th>Sanction</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      <div className="flex justify-end space-x-4">
-        {editing ? (
-          <>
-            <button onClick={saveSelections} className="btn btn-primary">
-              {isSaving ? 'Saving...' : 'Save Selections'}
-            </button>
-            <button onClick={handleEditCancel} className="btn btn-secondary">
-              Cancel
-            </button>
-          </>
-        ) : isDateInPast(dateFilter) ? (
-          <div className="text-gray-500 italic">View-only mode for past dates</div>
-        ) : (
-          <button onClick={handleEditCancel} className="btn btn-primary">
-            Edit
-          </button>
-        )}
-      </div>
+            </thead>
+            <tbody>
+              {students.length > 0 ? (
+                students.map((student) => (
+                  <tr key={student.cef}>
+                    <td>{student.cef}</td>
+                    <td>{student.fullname}</td>
+                    <td>{student.niveau}</td>
+                    <td>{student.filiere}</td>
+                    <td>{student.annee}</td>
+                    <td>{student.groupe}</td>
+                    <td>
+                      <select className="block w-full border border-gray-300 rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="">Aucune</option>
+                        <option value="avertissement">Avertissement</option>
+                        <option value="blame">Blâme</option>
+                        <option value="exclusion">Exclusion</option>
+                      </select>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={7} className="text-center py-4">Aucun étudiant trouvé pour ces critères.</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <p className="text-center py-4">Role not recognized.</p>
+      )}
     </div>
   );
 }

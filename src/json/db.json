@@ -928,204 +928,396 @@
             ]
         }
     ],
-    "secteur": {
-        "Science": {
+    
+        "niveau": {
+          "Specialisation": {
             "Physics": {
+              "1st Year": {
                 "Group 1": [
-                    {
-                        "id": "1",
-                        "cef": "10001",
-                        "fullname": "John Smith",
-                        "dateNaissance": "2000-03-01",
-                        "cin": "CS1001",
-                        "selected": false
-                    },
-                    {
-                        "id": "2",
-                        "cef": "10002",
-                        "fullname": "Alice Brown",
-                        "dateNaissance": "2000-04-15",
-                        "cin": "CS1002",
-                        "selected": false
-                    }
+                  {
+                    "cin": "CS1001",
+                    "cef": "10001",
+                    "fullname": "John Smith"
+                  },
+                  {
+                    "cin": "CS1002",
+                    "cef": "10002",
+                    "fullname": "Alice Brown"
+                  }
                 ],
                 "Group 2": [
-                    {
-                        "id": "3",
-                        "cef": "10003",
-                        "fullname": "Bob Lee",
-                        "dateNaissance": "2000-05-20",
-                        "cin": "CS1003",
-                        "selected": false
-                    },
-                    {
-                        "id": "4",
-                        "cef": "10004",
-                        "fullname": "Emma Davis",
-                        "dateNaissance": "2000-06-10",
-                        "cin": "CS1004",
-                        "selected": false
-                    }
+                  {
+                    "cin": "CS1003",
+                    "cef": "10003",
+                    "fullname": "Bob Lee"
+                  },
+                  {
+                    "cin": "CS1004",
+                    "cef": "10004",
+                    "fullname": "Emma Davis"
+                  }
+                ],
+                "Group 3": [
+                  {
+                    "cin": "CS1005",
+                    "cef": "10005",
+                    "fullname": "Michael Johnson"
+                  },
+                  {
+                    "cin": "CS1006",
+                    "cef": "10006",
+                    "fullname": "Olivia Miller"
+                  }
                 ]
+              },
+              "2nd Year": {
+                "Group 1": [
+                  {
+                    "cin": "CS2001",
+                    "cef": "20001",
+                    "fullname": "Ethan Martin"
+                  },
+                  {
+                    "cin": "CS2002",
+                    "cef": "20002",
+                    "fullname": "Sophia Turner"
+                  }
+                ],
+                "Group 2": [
+                  {
+                    "cin": "CS2003",
+                    "cef": "20003",
+                    "fullname": "Liam Walker"
+                  },
+                  {
+                    "cin": "CS2004",
+                    "cef": "20004",
+                    "fullname": "John Carter"
+                  }
+                ],
+                "Group 3": [
+                  {
+                    "cin": "CS2005",
+                    "cef": "20005",
+                    "fullname": "Emma Green"
+                  },
+                  {
+                    "cin": "CS2006",
+                    "cef": "20006",
+                    "fullname": "Charlotte Lee"
+                  }
+                ]
+              },
+              "3rd Year": {
+                "Group 1": [
+                  {
+                    "cin": "CS3001",
+                    "cef": "30001",
+                    "fullname": "Jacob Smith"
+                  },
+                  {
+                    "cin": "CS3002",
+                    "cef": "30002",
+                    "fullname": "Olivia Johnson"
+                  }
+                ],
+                "Group 2": [
+                  {
+                    "cin": "CS3003",
+                    "cef": "30003",
+                    "fullname": "Mason Hall"
+                  },
+                  {
+                    "cin": "CS3004",
+                    "cef": "30004",
+                    "fullname": "Lily Evans"
+                  }
+                ],
+                "Group 3": [
+                  {
+                    "cin": "CS3005",
+                    "cef": "30005",
+                    "fullname": "Isabella Scott"
+                  },
+                  {
+                    "cin": "CS3006",
+                    "cef": "30006",
+                    "fullname": "Ava Harris"
+                  }
+                ]
+              }
             },
-            "Biology": {
+            "Chemistry": {
+              "1st Year": {
                 "Group 1": [
-                    {
-                        "id": "5",
-                        "cef": "20001",
-                        "fullname": "Sophia Turner",
-                        "dateNaissance": "1999-09-10",
-                        "cin": "BIO2001",
-                        "selected": false
-                    },
-                    {
-                        "id": "6",
-                        "cef": "20002",
-                        "fullname": "Liam Walker",
-                        "dateNaissance": "1999-10-05",
-                        "cin": "BIO2002",
-                        "selected": false
-                    }
+                  {
+                    "cin": "CS1007",
+                    "cef": "10007",
+                    "fullname": "Ryan Taylor"
+                  },
+                  {
+                    "cin": "CS1008",
+                    "cef": "10008",
+                    "fullname": "Emma White"
+                  }
                 ],
                 "Group 2": [
-                    {
-                        "id": "7",
-                        "cef": "20003",
-                        "fullname": "Mason Hall",
-                        "dateNaissance": "1999-11-12",
-                        "cin": "BIO2003",
-                        "selected": false
-                    },
-                    {
-                        "id": "8",
-                        "cef": "20004",
-                        "fullname": "Isabella Scott",
-                        "dateNaissance": "1999-12-01",
-                        "cin": "BIO2004",
-                        "selected": false
-                    }
+                  {
+                    "cin": "CS1009",
+                    "cef": "10009",
+                    "fullname": "Jake Green"
+                  },
+                  {
+                    "cin": "CS1010",
+                    "cef": "10010",
+                    "fullname": "Sarah Brown"
+                  }
+                ],
+                "Group 3": [
+                  {
+                    "cin": "CS1011",
+                    "cef": "10011",
+                    "fullname": "Chloe Adams"
+                  },
+                  {
+                    "cin": "CS1012",
+                    "cef": "10012",
+                    "fullname": "Liam Harris"
+                  }
                 ]
+              },
+              "2nd Year": {
+                "Group 1": [
+                  {
+                    "cin": "CS2007",
+                    "cef": "20007",
+                    "fullname": "Noah White"
+                  },
+                  {
+                    "cin": "CS2008",
+                    "cef": "20008",
+                    "fullname": "Sophia Lewis"
+                  }
+                ],
+                "Group 2": [
+                  {
+                    "cin": "CS2009",
+                    "cef": "20009",
+                    "fullname": "Mason Clark"
+                  },
+                  {
+                    "cin": "CS2010",
+                    "cef": "20010",
+                    "fullname": "Olivia Martinez"
+                  }
+                ],
+                "Group 3": [
+                  {
+                    "cin": "CS2011",
+                    "cef": "20011",
+                    "fullname": "James Brown"
+                  },
+                  {
+                    "cin": "CS2012",
+                    "cef": "20012",
+                    "fullname": "Emma Davis"
+                  }
+                ]
+              },
+              "3rd Year": {
+                "Group 1": [
+                  {
+                    "cin": "CS3007",
+                    "cef": "30007",
+                    "fullname": "Alice Miller"
+                  },
+                  {
+                    "cin": "CS3008",
+                    "cef": "30008",
+                    "fullname": "Henry Harris"
+                  }
+                ],
+                "Group 2": [
+                  {
+                    "cin": "CS3009",
+                    "cef": "30009",
+                    "fullname": "Olivia Carter"
+                  },
+                  {
+                    "cin": "CS3010",
+                    "cef": "30010",
+                    "fullname": "Jack Lee"
+                  }
+                ],
+                "Group 3": [
+                  {
+                    "cin": "CS3011",
+                    "cef": "30011",
+                    "fullname": "Mia Wilson"
+                  },
+                  {
+                    "cin": "CS3012",
+                    "cef": "30012",
+                    "fullname": "Daniel Clark"
+                  }
+                ]
+              }
+            },
+            "Mathematics": {
+              "1st Year": {
+                "Group 1": [
+                  {
+                    "cin": "CS1013",
+                    "cef": "1013",
+                    "fullname": "Daniel Thomas"
+                  },
+                  {
+                    "cin": "CS1014",
+                    "cef": "1014",
+                    "fullname": "Grace Adams"
+                  }
+                ],
+                "Group 2": [
+                  {
+                    "cin": "CS1015",
+                    "cef": "1015",
+                    "fullname": "Lucas White"
+                  },
+                  {
+                    "cin": "CS1016",
+                    "cef": "1016",
+                    "fullname": "Maya Green"
+                  }
+                ],
+                "Group 3": [
+                  {
+                    "cin": "CS1017",
+                    "cef": "1017",
+                    "fullname": "David Lewis"
+                  },
+                  {
+                    "cin": "CS1018",
+                    "cef": "1018",
+                    "fullname": "Sophie Walker"
+                  }
+                ]
+              },
+              "2nd Year": {
+                "Group 1": [
+                  {
+                    "cin": "CS2013",
+                    "cef": "2013",
+                    "fullname": "Oliver Young"
+                  },
+                  {
+                    "cin": "CS2014",
+                    "cef": "2014",
+                    "fullname": "Charlotte Hill"
+                  }
+                ],
+                "Group 2": [
+                  {
+                    "cin": "CS2015",
+                    "cef": "2015",
+                    "fullname": "Hannah Lee"
+                  },
+                  {
+                    "cin": "CS2016",
+                    "cef": "2016",
+                    "fullname": "Jack Walker"
+                  }
+                ],
+                "Group 3": [
+                  {
+                    "cin": "CS2017",
+                    "cef": "2017",
+                    "fullname": "Lucy Brown"
+                  },
+                  {
+                    "cin": "CS2018",
+                    "cef": "2018",
+                    "fullname": "William Evans"
+                  }
+                ]
+              },
+              "3rd Year": {
+                "Group 1": [
+                  {
+                    "cin": "CS3013",
+                    "cef": "3013",
+                    "fullname": "Liam Thomas"
+                  },
+                  {
+                    "cin": "CS3014",
+                    "cef": "3014",
+                    "fullname": "Ella Turner"
+                  }
+                ],
+                "Group 2": [
+                  {
+                    "cin": "CS3015",
+                    "cef": "3015",
+                    "fullname": "Ryan Hall"
+                  },
+                  {
+                    "cin": "CS3016",
+                    "cef": "3016",
+                    "fullname": "Nina Clark"
+                  }
+                ],
+                "Group 3": [
+                  {
+                    "cin": "CS3017",
+                    "cef": "3017",
+                    "fullname": "Aaron Davis"
+                  },
+                  {
+                    "cin": "CS3018",
+                    "cef": "3018",
+                    "fullname": "Ella Martin"
+                  }
+                ]
+              }
             }
-        },
-        "Literature": {
+          },
+          "Qualification": {
             "English Literature": {
+              "1st Year": {
                 "Group 1": [
-                    {
-                        "id": "9",
-                        "cef": "30001",
-                        "fullname": "John Doe",
-                        "dateNaissance": "1998-01-10",
-                        "cin": "ENGL3001",
-                        "selected": false
-                    },
-                    {
-                        "id": "10",
-                        "cef": "30002",
-                        "fullname": "Anna White",
-                        "dateNaissance": "1998-02-20",
-                        "cin": "ENGL3002",
-                        "selected": false
-                    }
-                ],
-                "Group 2": [
-                    {
-                        "id": "11",
-                        "cef": "30003",
-                        "fullname": "James Smith",
-                        "dateNaissance": "1998-03-25",
-                        "cin": "ENGL3003",
-                        "selected": false
-                    },
-                    {
-                        "id": "12",
-                        "cef": "30004",
-                        "fullname": "Olivia Johnson",
-                        "dateNaissance": "1998-04-30",
-                        "cin": "ENGL3004",
-                        "selected": false
-                    }
+                  {
+                    "cin": "ENGL3001",
+                    "cef": "3001",
+                    "fullname": "John Doe"
+                  }
                 ]
+              },
+              "2nd Year": {
+                "Group 2": [
+                  {
+                    "cin": "ENGL3002",
+                    "cef": "3002",
+                    "fullname": "Jane Roe"
+                  }
+                ]
+              },
+              "3rd Year": {
+                "Group 3": [
+                  {
+                    "cin": "ENGL3003",
+                    "cef": "3003",
+                    "fullname": "James Smith"
+                  }
+                ]
+              }
             }
-        },
-        "Engineering": {
-            "Electrical Engineering": {
-                "Group 1": [
-                    {
-                        "id": "13",
-                        "cef": "40001",
-                        "fullname": "Lucas Brown",
-                        "dateNaissance": "1997-07-18",
-                        "cin": "EE4001",
-                        "selected": false
-                    },
-                    {
-                        "id": "14",
-                        "cef": "40002",
-                        "fullname": "Emma Green",
-                        "dateNaissance": "1997-08-22",
-                        "cin": "EE4002",
-                        "selected": false
-                    }
-                ],
-                "Group 2": [
-                    {
-                        "id": "15",
-                        "cef": "40003",
-                        "fullname": "Henry Adams",
-                        "dateNaissance": "1997-09-05",
-                        "cin": "EE4003",
-                        "selected": false
-                    },
-                    {
-                        "id": "16",
-                        "cef": "40004",
-                        "fullname": "Sophia Clark",
-                        "dateNaissance": "1997-10-14",
-                        "cin": "EE4004",
-                        "selected": false
-                    }
-                ]
-            },
-            "Mechanical Engineering": {
-                "Group 1": [
-                    {
-                        "id": "17",
-                        "cef": "50001",
-                        "fullname": "Ethan Walker",
-                        "dateNaissance": "1996-03-11",
-                        "cin": "ME5001",
-                        "selected": false
-                    },
-                    {
-                        "id": "18",
-                        "cef": "50002",
-                        "fullname": "Mia Lewis",
-                        "dateNaissance": "1996-04-22",
-                        "cin": "ME5002",
-                        "selected": false
-                    }
-                ],
-                "Group 2": [
-                    {
-                        "id": "19",
-                        "cef": "50003",
-                        "fullname": "Charlotte Robinson",
-                        "dateNaissance": "1996-05-03",
-                        "cin": "ME5003",
-                        "selected": false
-                    },
-                    {
-                        "id": "20",
-                        "cef": "50004",
-                        "fullname": "Oliver Martinez",
-                        "dateNaissance": "1996-06-12",
-                        "cin": "ME5004",
-                        "selected": false
-                    }
-                ]
-            }
+          }
         }
-    },
+      ,
+      
+
+
+
+ 
     "absentStudents": [
         {
             "id": "c43c",
